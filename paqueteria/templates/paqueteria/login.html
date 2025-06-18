@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Paquetería - Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #FFD700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .login-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 900px;
+            gap: 30px;
+        }
+        
+        .login-container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-container:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        h2 {
+            color: #555;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        select:focus, input:focus {
+            border-color: #FFD700;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #FFD700;
+            border: none;
+            border-radius: 5px;
+            color: #333;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: #FFC000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 1rem;
+            padding: 10px;
+            background-color: #fadbd8;
+            border-radius: 5px;
+            display: {% if error %}block{% else %}none{% endif %};
+        }
+        
+        .logo-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter: grayscale(20%);
+            transition: all 0.3s;
+            opacity: 0.9;
+        }
+        
+        .logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .login-wrapper {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+            
+            .logo-side {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .logo {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <!-- Logos lado izquierdo -->
+        <div class="logo-side">
+            <img src="static/img/DHL.png" alt="DHL" class="logo">
+            <img src="static/img/Fedex.png" alt="FedEx" class="logo">
+        </div>
+        
+        <!-- Formulario de login -->
+        <div class="login-container">
+            <h1>Gestión Paquetería</h1>
+            <h2>Envíos Nacionales e Internacionales</h2>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="sucursal">Sucursal:</label>
+                    <select name="sucursal_id" id="sucursal_id" required>
+                        <option value="">Seleccione una sucursal</option>
+                        {% for sucursal in sucursales %}
+                            <option value="{{ sucursal.id }}">{{ sucursal.nombre}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="usuario">Usuario:</label>
+                    <input type="text" name="usuario" id="usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contrasena">Contraseña:</label>
+                    <input type="password" name="contrasena" id="contrasena" required>
+                </div>
+                
+                <button type="submit">Entrar</button>
+            </form>
+
+            {% if error %}
+                <p class="error-message">{{ error }}</p>
+            {% endif %}
+        </div>
+        
+        <!-- Logos lado derecho -->
+        <div class="logo-side">
+            <img src="static/img/Estafeta.png" alt="Estafeta" class="logo">
+            <img src="static/img/MercadoLibre.png" alt="Mercado Libre" class="logo">
+        </div>
+    </div>
+</body>
+</html>

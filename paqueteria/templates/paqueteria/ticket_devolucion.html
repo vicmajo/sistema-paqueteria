@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comprobante de Devolución</title>
+    <style>
+        body {
+            width: 8cm;
+            height: 14cm;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px;
+            border: 2px dashed black;
+        }
+
+        .centrado {
+            text-align: center;
+        }
+
+        .campo {
+            margin-bottom: 10px;
+        }
+
+        @media print {
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="centrado">
+        <h3>========================================</h3>
+        <h3>COMPROBANTE DE DEVOLUCIÓN</h3>
+        <h3>========================================</h3>
+    </div>
+
+    <div class="campo">📦 Nombre del cliente:<br><strong>{{ nombre_cliente }}</strong></div>
+    <div class="campo">📅 Fecha de entrega:<br><strong>{{ fecha_entrega }}</strong></div>
+    <div class="campo">⏰ Hora de entrega:<br><strong>{{ hora_entrega }}</strong></div>
+    <div class="campo">🚚 Paquetería receptora:<br><strong>{{ paqueteria }}</strong></div>
+
+    <div class="centrado">
+        <hr>
+        <p>Este ticket certifica que el cliente ha entregado un paquete para devolución en la paquetería mencionada.</p>
+        <p><strong>❗ IMPORTANTE:</strong> La devolución será procesada una vez que el paquete sea recibido y verificado por el almacén correspondiente.</p>
+        <p>Este comprobante no garantiza reembolso hasta completar el proceso.</p>
+        <hr>
+    </div>
+
+    <div class="campo">👤 Firma del responsable:<br>_______________________________</div>
+    <div class="campo">🧾 Sello o folio (si aplica):<br>_______________________________</div>
+
+    <div class="centrado">
+        <h3>Gracias por su confianza.</h3>
+        <h3>========================================</h3>
+        <button onclick="window.print()">🖨️ Imprimir</button>
+    </div>
+</body>
+</html>

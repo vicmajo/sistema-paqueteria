@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registrar Devolución</title>
+</head>
+<body>
+    <h2>Registrar Devolución</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label>📦 Nombre del cliente:</label><br>
+        <input type="text" name="nombre_cliente" required><br><br>
+
+        <label>📅 Fecha de entrega:</label><br>
+        <input type="date" name="fecha_entrega" required><br><br>
+
+        <label>⏰ Hora de entrega:</label><br>
+        <input type="time" name="hora_entrega" required><br><br>
+
+        <button type="submit" name="accion" value="guardar_imprimir">Guardar y generar ticket</button>
+        <button type="submit" name="accion" value="solo_ticket">Solo generar ticket</button>
+    </form>
+</body>
+</html>
