@@ -15,10 +15,18 @@
             background-color: #FFD700;
             background-image: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 10px;
+            padding: 20px;
+        }
+        
+        .ticket-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
         }
         
         .ticket {
@@ -28,6 +36,7 @@
             border: 1px solid #000;
             position: relative;
             overflow: hidden;
+            margin-bottom: 20px;
         }
         
         h2, h3 {
@@ -93,6 +102,26 @@
             border: 1px dashed #000;
         }
         
+        .print-btn {
+            background-color: #FFD700;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            color: #333;
+            margin-top: 20px;
+        }
+        
+        .print-btn:hover {
+            background-color: #FFC000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
         @media print {
             body {
                 background: none;
@@ -104,57 +133,65 @@
                 width: 8cm;
                 margin: 0 auto;
             }
+            
+            .print-btn {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="ticket">
-        <h2>COMPROBANTE DE ENVÍO</h2>
-        
-        {% if datos_sucursal %}
-            <h3>{{ datos_sucursal.nombre }}</h3>
-            <div class="section">
-                <div class="section-title">DATOS DE LA SUCURSAL</div>
-                <p><strong>Dirección:</strong> {{ datos_sucursal.direccion }}</p>
-                <p><strong>C.P.:</strong> {{ datos_sucursal.codigo_postal }} | <strong>Estado:</strong> {{ datos_sucursal.estado }}</p>
-                <p><strong></strong> {{ datos_sucursal.atendio }}</p>
-                <p><strong>RFC:</strong> {{ datos_sucursal.rfc }}</p>
-                <p><strong>Teléfono:</strong> {{ datos_sucursal.telefono }}</p>
+    <div class="ticket-container">
+        <div class="ticket">
+            <h2>COMPROBANTE DE ENVÍO</h2>
+            
+            {% if datos_sucursal %}
+                <h3>{{ datos_sucursal.nombre }}</h3>
+                <div class="section">
+                    <div class="section-title">DATOS DE LA SUCURSAL</div>
+                    <p><strong>Dirección:</strong> {{ datos_sucursal.direccion }}</p>
+                    <p><strong>C.P.:</strong> {{ datos_sucursal.codigo_postal }} | <strong>Estado:</strong> {{ datos_sucursal.estado }}</p>
+                    <p><strong>Atendió:</strong> {{ datos_sucursal.atendio }}</p>
+                    <p><strong>RFC:</strong> {{ datos_sucursal.rfc }}</p>
+                    <p><strong>Teléfono:</strong> {{ datos_sucursal.telefono }}</p>
+                </div>
+            {% else %}
+                <p class="error">No se encontraron datos de la sucursal</p>
+            {% endif %}
+
+            <div class="divider"></div>
+
+            {% if datos_envio %}
+                <div class="section">
+                    <div class="section-title">INFORMACIÓN DEL ENVÍO</div>
+                    <p><strong>Remitente:</strong> {{ datos_envio.remitente }}</p>
+                    <p><strong>Teléfono:</strong> {{ datos_envio.telefono }}</p>
+                    <p><strong>Contenido:</strong> {{ datos_envio.contenido }}</p>
+                    <p><strong>Destinatario:</strong> {{ datos_envio.destinatario }}</p>
+                    <p><strong>C.P.:</strong> {{ datos_envio.codigo_postal }}</p>
+                    <p><strong>Dirección:</strong> {{ datos_envio.direccion }}</p>
+                    <p><strong>Referencias:</strong> {{ datos_envio.referencias }}</p>
+                    
+                    <div class="divider" style="margin: 8px 0;"></div>
+                    
+                    <p><strong>Medidas:</strong> {{ datos_envio.ancho }} × {{ datos_envio.alto }} × {{ datos_envio.largo }} cm</p>
+                    <p><strong>Peso:</strong> {{ datos_envio.peso }} kg</p>
+                    <p><strong>Paquetería:</strong> {{ datos_envio.paqueteria }}</p>
+                    <p><strong>Total:</strong> ${{ datos_envio.total }} MXN</p>
+                </div>
+            {% else %}
+                <p class="error">No se encontraron datos del envío</p>
+            {% endif %}
+
+            <div class="divider"></div>
+
+            <div class="footer">
+                GRACIAS POR SU PREFERENCIA<br>
+                Conserve este comprobante
             </div>
-        {% else %}
-            <p class="error">No se encontraron datos de la sucursal</p>
-        {% endif %}
-
-        <div class="divider"></div>
-
-        {% if datos_envio %}
-            <div class="section">
-                <div class="section-title">INFORMACIÓN DEL ENVÍO</div>
-                <p><strong>Remitente:</strong> {{ datos_envio.remitente }}</p>
-                <p><strong>Teléfono:</strong> {{ datos_envio.telefono }}</p>
-                <p><strong>Contenido:</strong> {{ datos_envio.contenido }}</p>
-                <p><strong>Destinatario:</strong> {{ datos_envio.destinatario }}</p>
-                <p><strong>C.P.:</strong> {{ datos_envio.codigo_postal }}</p>
-                <p><strong>Dirección:</strong> {{ datos_envio.direccion }}</p>
-                <p><strong>Referencias:</strong> {{ datos_envio.referencias }}</p>
-                
-                <div class="divider" style="margin: 8px 0;"></div>
-                
-                <p><strong>Medidas:</strong> {{ datos_envio.ancho }} × {{ datos_envio.alto }} × {{ datos_envio.largo }} cm</p>
-                <p><strong>Peso:</strong> {{ datos_envio.peso }} kg</p>
-                <p><strong>Paquetería:</strong> {{ datos_envio.paqueteria }}</p>
-                <p><strong>Total:</strong> ${{ datos_envio.total }} MXN</p>
-            </div>
-        {% else %}
-            <p class="error">No se encontraron datos del envío</p>
-        {% endif %}
-
-        <div class="divider"></div>
-
-        <div class="footer">
-            GRACIAS POR SU PREFERENCIA<br>
-            Conserve este comprobante
         </div>
+
+        <button class="print-btn" onclick="window.print()">🖨️ Imprimir Ticket</button>
     </div>
 </body>
 </html>
