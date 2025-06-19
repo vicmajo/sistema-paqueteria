@@ -4,78 +4,157 @@
     <meta charset="UTF-8">
     <title>Ticket de Envío</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            width: 8cm;
-            padding: 10px;
-            border: 1px solid #000;
-            margin: 0 auto;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
         }
+        
+        body {
+            background-color: #FFD700;
+            background-image: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        
+        .ticket {
+            width: 8cm;
+            background-color: white;
+            padding: 15px;
+            border: 1px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+        
         h2, h3 {
             text-align: center;
-            margin: 5px 0;
+            color: #000;
         }
-        .line {
+        
+        h2 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #000;
+        }
+        
+        h3 {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        
+        .section {
+            margin-bottom: 12px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 12px;
+            text-align: center;
+            text-decoration: underline;
+        }
+        
+        p {
+            margin: 4px 0;
+            font-size: 11px;
+            line-height: 1.3;
+            color: #000;
+        }
+        
+        p strong {
+            font-weight: bold;
+        }
+        
+        .divider {
             border-top: 1px dashed #000;
             margin: 10px 0;
         }
-        p {
-            margin: 4px 0;
+        
+        .footer {
+            text-align: center;
+            font-size: 10px;
+            color: #000;
+            margin-top: 10px;
+            font-style: italic;
         }
-        .section {
-            margin-bottom: 10px;
+        
+        .error {
+            color: #000;
+            text-align: center;
+            font-size: 11px;
+            padding: 5px;
+            background-color: #eee;
+            border-radius: 3px;
+            border: 1px dashed #000;
+        }
+        
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            
+            .ticket {
+                border: 1px solid #000;
+                width: 8cm;
+                margin: 0 auto;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="ticket">
+        <h2>COMPROBANTE DE ENVÍO</h2>
+        
+        {% if datos_sucursal %}
+            <h3>{{ datos_sucursal.nombre }}</h3>
+            <div class="section">
+                <div class="section-title">DATOS DE LA SUCURSAL</div>
+                <p><strong>Dirección:</strong> {{ datos_sucursal.direccion }}</p>
+                <p><strong>C.P.:</strong> {{ datos_sucursal.codigo_postal }} | <strong>Estado:</strong> {{ datos_sucursal.estado }}</p>
+                <p><strong></strong> {{ datos_sucursal.atendio }}</p>
+                <p><strong>RFC:</strong> {{ datos_sucursal.rfc }}</p>
+                <p><strong>Teléfono:</strong> {{ datos_sucursal.telefono }}</p>
+            </div>
+        {% else %}
+            <p class="error">No se encontraron datos de la sucursal</p>
+        {% endif %}
 
-    {% if datos_sucursal %}
-        <h3>{{ datos_sucursal.nombre }}</h3>
-        <div class="section">
-            <p>Dirección: {{ datos_sucursal.direccion }}</p>
-            <p>C.P.: {{ datos_sucursal.codigo_postal }}</p>
-            <p>Estado: {{ datos_sucursal.estado }}</p>
-            <p>Tel: {{ datos_sucursal.telefono }}</p>
-            <p>RFC: {{ datos_sucursal.rfc }}</p>
-            <p>Atendió: {{ datos_sucursal.atendio }}</p>
+        <div class="divider"></div>
+
+        {% if datos_envio %}
+            <div class="section">
+                <div class="section-title">INFORMACIÓN DEL ENVÍO</div>
+                <p><strong>Remitente:</strong> {{ datos_envio.remitente }}</p>
+                <p><strong>Teléfono:</strong> {{ datos_envio.telefono }}</p>
+                <p><strong>Contenido:</strong> {{ datos_envio.contenido }}</p>
+                <p><strong>Destinatario:</strong> {{ datos_envio.destinatario }}</p>
+                <p><strong>C.P.:</strong> {{ datos_envio.codigo_postal }}</p>
+                <p><strong>Dirección:</strong> {{ datos_envio.direccion }}</p>
+                <p><strong>Referencias:</strong> {{ datos_envio.referencias }}</p>
+                
+                <div class="divider" style="margin: 8px 0;"></div>
+                
+                <p><strong>Medidas:</strong> {{ datos_envio.ancho }} × {{ datos_envio.alto }} × {{ datos_envio.largo }} cm</p>
+                <p><strong>Peso:</strong> {{ datos_envio.peso }} kg</p>
+                <p><strong>Paquetería:</strong> {{ datos_envio.paqueteria }}</p>
+                <p><strong>Total:</strong> ${{ datos_envio.total }} MXN</p>
+            </div>
+        {% else %}
+            <p class="error">No se encontraron datos del envío</p>
+        {% endif %}
+
+        <div class="divider"></div>
+
+        <div class="footer">
+            GRACIAS POR SU PREFERENCIA<br>
+            Conserve este comprobante
         </div>
-    {% else %}
-        <p style="color:red;">No se encontraron datos de la sucursal</p>
-    {% endif %}
-
-    <div class="line"></div>
-
-    {% if datos_envio %}
-        <div class="section">
-            <p><strong>Remitente:</strong> {{ datos_envio.remitente }}</p>
-            <p><strong>Teléfono:</strong> {{ datos_envio.telefono }}</p>
-            <p><strong>Contenido:</strong> {{ datos_envio.contenido }}</p>
-            <p><strong>Destinatario:</strong> {{ datos_envio.destinatario }}</p>
-            <p><strong>Código Postal:</strong> {{ datos_envio.codigo_postal }}</p>
-            <p><strong>Dirección de Entrega:</strong> {{ datos_envio.direccion }}</p>
-            <p><strong>Destino(referencias):</strong> {{ datos_envio.referencias }}</p>
-            <p><strong>Medidas (cm):</strong> {{ datos_envio.ancho }} x {{ datos_envio.alto }} x {{ datos_envio.largo }}</p>
-            <p><strong>Peso (kg):</strong> {{ datos_envio.peso }}</p>
-            <p><strong>Paqueteria:</strong> {{datos_envio.paqueteria}}
-            <p><strong>Total (MXN):</strong> ${{ datos_envio.total }}</p>
-            <br>
-            <br>
-        </div>
-    {% else %}
-        <p style="color:red;">No se encontraron datos del envío</p>
-    {% endif %}
-
-    <div class="line"></div>
-
-
-    <p style="text-align: center; font-size: small;">¡Gracias por su preferencia!</p>
+    </div>
 </body>
 </html>
-
-
-
-
-
-
-
-

@@ -2,105 +2,289 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Envío</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            font-size: 12px; /* Tamaño base reducido */
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            width: 8cm;
+            background-color: #FFD700;
+            background-image: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            display: flex;
+            justify-content: center; /* Centrado horizontal */
+            align-items: center;    /* Centrado vertical */
+            min-height: 100vh;
             padding: 10px;
-            border: 1px solid #000;
-            margin: 0 auto;
         }
-        h2, h3 {
+        
+        .ticket-container {
+            background-color: white;
+            width: 8cm; /* Ancho fijo de 8cm */
+            min-height: 12cm;
+            padding: 12px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ticket-container::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+        }
+        
+        h2 {
+            color: #333;
             text-align: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            border-bottom: 1px solid #FFD700;
+            padding-bottom: 6px;
         }
-        .line {
-            border-top: 1px dashed #000;
-            margin: 10px 0;
+        
+        .sucursal-header {
+            text-align: center;
+            margin-bottom: 6px;
         }
+        
+        .sucursal-header h3 {
+            font-size: 13px;
+            color: #000;
+            margin-bottom: 2px;
+            font-weight: bold;
+        }
+        
+        .sucursal-header p.fecha {
+            font-size: 10px;
+            color: #777;
+            margin-bottom: 6px;
+        }
+        
+        .datos-sucursal {
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #FFA500;
+        }
+        
+        .datos-sucursal p {
+            margin-bottom: 3px;
+            font-size: 10px;
+            color: #555;
+            line-height: 1.2;
+        }
+        
+        .datos-sucursal p strong {
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .separator {
+            border-top: 1px dashed #FFA500;
+            margin: 8px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 8px;
+        }
+        
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
+            color: #555;
+            font-weight: 600;
+            font-size: 10px;
         }
+        
         input, textarea {
             width: 100%;
-            margin-bottom: 10px;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 10px;
+            transition: all 0.2s;
         }
-        .btn-group {
+        
+        input:focus, textarea:focus {
+            border-color: #FFD700;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+        }
+        
+        .medidas-container {
             display: flex;
-            justify-content: space-between;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .medidas-container input {
+            text-align: center;
+            padding: 4px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 6px;
+            border: none;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        button[type="submit"] {
+            background-color: #FFD700;
+            color: #333;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #FFC000;
+        }
+        
+        .footer {
+            margin-top: 8px;
+            text-align: center;
+            font-size: 10px;
+            color: #777;
+            border-top: 1px dashed #FFD700;
+            padding-top: 6px;
+        }
+        
+        .error-message {
+            color: #D32F2F;
+            font-size: 10px;
+            text-align: center;
+            margin-bottom: 8px;
+            padding: 6px;
+            background-color: rgba(255, 235, 235, 0.7);
+            border-radius: 3px;
+        }
+        
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            
+            .ticket-container {
+                box-shadow: none;
+                border-radius: 0;
+                width: 8cm;
+                min-height: auto;
+            }
         }
     </style>
 </head>
 <body>
-
-    {% comment %} <h2>📦 COMPROBANTE DE ENVÍO 📦</h2>
-    <div class="line"></div> {% endcomment %}
-
-    {% if datos_sucursal %}
-    <h3>{{ datos_sucursal.nombre }}</h3>
-    <p>
-        Dirección: {{ datos_sucursal.direccion }}<br>
-        C.P.: {{ datos_sucursal.codigo_postal }}<br>
-        Estado: {{ datos_sucursal.estado }}<br>
-        Tel.: {{ datos_sucursal.telefono }}<br>
-        Atendió: {{ datos_sucursal.atendio }}
-        RFC: {{datos_sucursal.rfc}}
-    </p>
-    {% else %}
-    <p style="color: red;">No se encontraron datos de la sucursal</p>
-    {% endif %}
-
-    <div class="line"></div>
-
-    <form method="POST">
-        {% csrf_token %}
-
-        <label>Remitente:</label>
-        <input type="text" name="remitente" required>
-
-        <label>Teléfono:</label>
-        <input type="text" name="telefono" required>
-
-        <label>Contenido del paquete:</label>
-        <textarea name="contenido" rows="3" required></textarea>
-
-        <label>Destinatario:</label>
-        <input type="text" name="destinatario" required>
-
-        <label>Código Postal:</label>
-        <input type="text" name="codigo_postal" required>
-
-        <label>Dirección de entrega:</label>
-        <textarea name="direccion" rows="2" required></textarea>
-
-        <label>Referencias:</label>
-        <textarea name="referencias" rows="2" required></textarea>
-
-        <label>Medidas (cm):</label>
-        <input type="number" step="0.01" name="ancho" placeholder="Ancho" required>
-        <input type="number" step="0.01" name="alto" placeholder="Alto" required>
-        <input type="number" step="0.01" name="largo" placeholder="Largo" required>
-
-        <label>Peso (kg):</label>
-        <input type="number" step="0.01" name="peso" required>
-
-         <label>Paqueteria:</label>
-        <textarea name="paqueteria" rows="2" required></textarea>
-
-        <label>Total (MXN):</label>
-        <input type="number" step="0.01" name="total" required>
-
-        <div class="btn-group">
-            <button type="submit" name="accion" value="guardar_imprimir">Guardar e Imprimir</button>
-            <button type="submit" name="accion" value="solo_ticket">Solo Generar Ticket</button>
+    <div class="ticket-container">
+        <h2>📦 COMPROBANTE DE ENVÍO 📦</h2>
+        
+        {% if datos_sucursal %}
+        <div class="sucursal-header">
+            <h3>{{ datos_sucursal.nombre }}</h3>
+            <p class="fecha">{{ fecha_actual|date:"d/m/Y H:i" }}</p>
         </div>
-    </form>
-
-    <div class="line"></div>
-    <p style="font-size: small; text-align: center;">
-        ¡GRACIAS POR SU PREFERENCIA!.<br>
-    </p>
-
+        
+        <div class="datos-sucursal">
+            <p><strong>Dirección:</strong> {{ datos_sucursal.direccion }}</p>
+            <p><strong>C.P.:</strong> {{ datos_sucursal.codigo_postal }} | <strong>Estado:</strong> {{ datos_sucursal.estado }}</p>
+            <p><strong></strong> {{ datos_sucursal.atendio }}</p>
+            <p><strong>RFC:</strong> {{ datos_sucursal.rfc }} | <strong>Tel:</strong> {{ datos_sucursal.telefono }}</p>
+        </div>
+        {% else %}
+        <p class="error-message">⚠️ No se encontraron datos de la sucursal</p>
+        {% endif %}
+        
+        <div class="separator"></div>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label>Remitente:</label>
+                <input type="text" name="remitente" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Teléfono:</label>
+                <input type="text" name="telefono" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Contenido del paquete:</label>
+                <textarea name="contenido" rows="2" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Destinatario:</label>
+                <input type="text" name="destinatario" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Código Postal:</label>
+                <input type="text" name="codigo_postal" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Dirección de entrega:</label>
+                <textarea name="direccion" rows="2" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Referencias:</label>
+                <textarea name="referencias" rows="2" required></textarea>
+            </div>
+            
+            <label>Medidas (cm):</label>
+            <div class="medidas-container">
+                <input type="number" step="0.01" name="ancho" placeholder="Ancho" required>
+                <input type="number" step="0.01" name="alto" placeholder="Alto" required>
+                <input type="number" step="0.01" name="largo" placeholder="Largo" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Peso (kg):</label>
+                <input type="number" step="0.01" name="peso" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Paquetería:</label>
+                <textarea name="paqueteria" rows="2" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Total (MXN):</label>
+                <input type="number" step="0.01" name="total" required>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" name="accion" value="guardar_imprimir">💾 Guardar e Imprimir</button>
+                <button type="submit" name="accion" value="solo_ticket">🖨️ Solo Ticket</button>
+            </div>
+        </form>
+        
+        <div class="footer">
+            ¡GRACIAS POR SU PREFERENCIA!<br>
+            Conserve este comprobante
+        </div>
+    </div>
 </body>
 </html>
