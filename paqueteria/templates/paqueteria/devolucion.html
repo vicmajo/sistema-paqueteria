@@ -1,23 +1,175 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Registrar Devolución</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Devolución - {{ nombre_paqueteria }}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #FFD700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+        
+        .form-container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-container:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            border-bottom: 2px solid #FFD700;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        label::before {
+            margin-right: 8px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            border-color: #FFD700;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button[type="submit"] {
+            background-color: #FFD700;
+            color: #333;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #FFC000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .logo-footer img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+        
+        .logo-footer img:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 1.5rem;
+                margin: 0 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>Registrar Devolución</h2>
-    <form method="post">
-        {% csrf_token %}
-        <label>📦 Nombre del cliente:</label><br>
-        <input type="text" name="nombre_cliente" required><br><br>
-
-        <label>📅 Fecha de entrega:</label><br>
-        <input type="date" name="fecha_entrega" required><br><br>
-
-        <label>⏰ Hora de entrega:</label><br>
-        <input type="time" name="hora_entrega" required><br><br>
-
-        <button type="submit" name="accion" value="guardar_imprimir">Guardar y generar ticket</button>
-        <button type="submit" name="accion" value="solo_ticket">Solo generar ticket</button>
-    </form>
+    <div class="form-container">
+        <h2>📦 Registrar Devolución</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>📦 Nombre del cliente:</label>
+                <input type="text" name="nombre_cliente" required placeholder="Ingrese el nombre completo">
+            </div>
+            
+            <div class="form-group">
+                <label>📅 Fecha de entrega:</label>
+                <input type="date" name="fecha_entrega" required>
+            </div>
+            
+            <div class="form-group">
+                <label>⏰ Hora de entrega:</label>
+                <input type="time" name="hora_entrega" required>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" name="accion" value="guardar_imprimir">💾 Guardar y generar ticket</button>
+                <button type="submit" name="accion" value="solo_ticket">🖨️ Solo generar ticket</button>
+            </div>
+        </form>
+        
+        <div class="logo-footer">
+            <img src="{% static 'img/dhl.png' %}" alt="DHL">
+            <img src="{% static 'img/fedex.png' %}" alt="FedEx">
+            <img src="{% static 'img/estafeta.png' %}" alt="Estafeta">
+            <img src="{% static 'img/mercadolibre.png' %}" alt="Mercado Libre">
+        </div>
+    </div>
 </body>
 </html>

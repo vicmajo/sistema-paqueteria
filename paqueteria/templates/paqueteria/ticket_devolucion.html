@@ -1,58 +1,248 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Comprobante de Devolución</title>
     <style>
+        /* Estilo general */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Fondo amarillo como en los demás diseños */
         body {
+            background-color: #FFD700;
+            background-image: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        /* Vista previa del ticket */
+        .ticket-preview {
+            background-color: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 8cm;
+        }
+
+        /* Estilo del ticket */
+        .ticket {
             width: 8cm;
-            height: 14cm;
-            font-family: 'Courier New', Courier, monospace;
+            height: 18cm;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
             padding: 10px;
-            border: 2px dashed black;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
         }
 
-        .centrado {
+        /* Estilos del ticket (igual que antes) */
+        .header {
             text-align: center;
-        }
-
-        .campo {
             margin-bottom: 10px;
         }
+        .divider {
+            border-top: 1px dashed #000;
+            margin: 8px 0;
+        }
+        .double-divider {
+            border-top: 2px double #000;
+            margin: 10px 0;
+        }
+        .field {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .field-title {
+            font-weight: bold;
+            display: block;
+            font-size: 11px;
+        }
+        .field-value {
+            margin-top: 3px;
+            padding-left: 15px;
+            font-size: 11px;
+        }
+        .signature-line {
+            border-top: 1px solid #000;
+            width: 100%;
+            margin-top: 25px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .warning {
+            font-size: 10px;
+            margin: 8px 0;
+            line-height: 1.3;
+        }
 
+        /* Controles de impresión - AHORA EN LA PARTE INFERIOR */
+        .print-controls {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        .print-btn {
+            background-color: #FFD700;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            color: #333;
+        }
+        
+        .print-btn:hover {
+            background-color: #FFC000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Estilo para impresión */
         @media print {
-            button {
+            body {
+                background: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .ticket-preview {
+                box-shadow: none;
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .print-controls {
                 display: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="centrado">
-        <h3>========================================</h3>
-        <h3>COMPROBANTE DE DEVOLUCIÓN</h3>
-        <h3>========================================</h3>
+    <div class="main-container">
+        <!-- Vista previa del ticket -->
+        <div class="ticket-preview">
+            <div class="ticket">
+                <div class="header">
+                    <div class="double-divider"></div>
+                    <div style="font-weight: bold; font-size: 13px;">COMPROBANTE DE DEVOLUCIÓN</div>
+                    <div class="double-divider"></div>
+                </div>
+
+                <div class="field">
+                    <span class="field-title">📦 NOMBRE DEL CLIENTE:</span>
+                    <div class="field-value">{{ nombre_cliente|default:"_________________________" }}</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="field">
+                    <span class="field-title">📅 FECHA DE ENTREGA:</span>
+                    <div class="field-value">{{ fecha_entrega|default:"____ / ____ / ________" }}</div>
+                </div>
+
+                <div class="field">
+                    <span class="field-title">⏰ HORA DE ENTREGA:</span>
+                    <div class="field-value">{{ hora_entrega|default:"______ : ______ hrs" }}</div>
+                </div>
+
+                <div class="field">
+                    <span class="field-title">🚚 PAQUETERÍA RECEPTORA:</span>
+                    <div class="field-value">{{ paqueteria|default:"_________________________" }}</div>
+                </div>
+
+                <div class="double-divider"></div>
+
+                <div class="warning">
+                    Este ticket certifica que el cliente ha entregado un paquete para devolución en la paquetería mencionada.
+                </div>
+
+                <div class="warning" style="font-weight: bold;">
+                    ❗ IMPORTANTE: La devolución será procesada una vez que el paquete sea recibido y verificado por el almacén correspondiente.
+                </div>
+
+                <div class="warning">
+                    Este comprobante no garantiza reembolso hasta completar el proceso.
+                </div>
+
+                <div class="double-divider"></div>
+
+                <div class="field">
+                    <span class="field-title">👤 FIRMA DEL RESPONSABLE:</span>
+                    <br>
+                    <div class="signature-line"></div>
+                </div>
+
+                <div class="field">
+                    <span class="field-title">🧾 SELLO O FOLIO:</span>
+                    <br>
+                    <br>
+                    <div class="signature-line"></div>
+                </div>
+
+                <div class="footer">
+                    <div>Gracias por su confianza</div>
+                    <div class="divider"></div>
+                    <div style="font-size: 10px;">{{ fecha_impresion|date:"d/m/Y H:i" }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón de imprimir AHORA EN LA PARTE INFERIOR FIJO -->
+        <div class="print-controls">
+            <button class="print-btn" onclick="window.print()">🖨️ Imprimir Ticket</button>
+        </div>
     </div>
 
-    <div class="campo">📦 Nombre del cliente:<br><strong>{{ nombre_cliente }}</strong></div>
-    <div class="campo">📅 Fecha de entrega:<br><strong>{{ fecha_entrega }}</strong></div>
-    <div class="campo">⏰ Hora de entrega:<br><strong>{{ hora_entrega }}</strong></div>
-    <div class="campo">🚚 Paquetería receptora:<br><strong>{{ paqueteria }}</strong></div>
-
-    <div class="centrado">
-        <hr>
-        <p>Este ticket certifica que el cliente ha entregado un paquete para devolución en la paquetería mencionada.</p>
-        <p><strong>❗ IMPORTANTE:</strong> La devolución será procesada una vez que el paquete sea recibido y verificado por el almacén correspondiente.</p>
-        <p>Este comprobante no garantiza reembolso hasta completar el proceso.</p>
-        <hr>
-    </div>
-
-    <div class="campo">👤 Firma del responsable:<br>_______________________________</div>
-    <div class="campo">🧾 Sello o folio (si aplica):<br>_______________________________</div>
-
-    <div class="centrado">
-        <h3>Gracias por su confianza.</h3>
-        <h3>========================================</h3>
-        <button onclick="window.print()">🖨️ Imprimir</button>
-    </div>
+    <script>
+        // Autoajustar campos vacíos para vista previa
+        document.addEventListener('DOMContentLoaded', function() {
+            const fields = ['nombre_cliente', 'fecha_entrega', 'hora_entrega', 'paqueteria'];
+            fields.forEach(field => {
+                const element = document.querySelector(`.field-value`);
+                if(element && !element.textContent.trim()) {
+                    element.textContent = 
+                        field === 'fecha_entrega' ? '____ / ____ / ________' :
+                        field === 'hora_entrega' ? '______ : ______ hrs' :
+                        '_________________________';
+                }
+            });
+            
+            // Agregar fecha actual si no está definida
+            const footerDate = document.querySelector('.footer div:last-child');
+            if(footerDate && !footerDate.textContent.trim()) {
+                const now = new Date();
+                footerDate.textContent = 
+                    now.toLocaleDateString('es-MX') + ' ' + now.toLocaleTimeString('es-MX', {hour: '2-digit', minute:'2-digit'});
+            }
+        });
+    </script>
 </body>
 </html>
