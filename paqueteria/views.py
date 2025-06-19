@@ -175,3 +175,81 @@ def registrar_devolucion(request):
 
 # def registrar_devolucion(request):
 #     return render(request, 'paqueteria/envio.html')
+
+def obtener_datos_sucursal_por_usuario(usuario):
+    with connection.cursor() as cursor:
+        cursor.execute('EXEC ObtenerDatosSucursalPorUsuario @usuario=%s', [usuario])
+        resultado = cursor.fetchone()
+        if resultado:
+            return {
+                'id': resultado[0],
+                'nombre': resultado[1],
+                'estado': resultado[2],
+                'direccion': resultado[3],
+                'rfc': resultado[4],
+                'codigo_postal': resultado[5],
+                'telefono': resultado[6],
+                'atendio': resultado[7],
+            }
+    return None
+
+
+
+
+
+
+def registrar_envio(request):
+    usuario = request.session.get('usuario')
+    datos_sucursal = obtener_datos_sucursal_por_usuario(usuario)
+
+    if request.method == 'POST':
+        accion = request.POST.get('accion')
+        remitente = request.POST.get('remitente')
+        telefono = request.POST.get('telefono')
+        contenido = request.POST.get('contenido')
+        destinatario = request.POST.get('destinatario')
+        cp = request.POST.get('codigo_postal')
+        direccion = request.POST.get('direccion')
+        referencias = request.POST.get('referencias')
+        ancho = request.POST.get('ancho')
+        alto = request.POST.get('alto')
+        largo = request.POST.get('largo')
+        peso = request.POST.get('peso')
+        paqueteria = request.POST.get('paqueteria')
+        total = request.POST.get('total')
+
+        id_sucursal = datos_sucursal['id'] if datos_sucursal else None
+
+        if accion == 'guardar_imprimir':
+            with connection.cursor() as cursor:
+                cursor.execute('''
+                    EXEC InsertarEnvio 
+                        @fecha=%s, 
+                        @Remitente=%s, 
+                        @Num_Telefonico=%s, 
+                        @Contenido=%s,
+                        @Destinatario=%s,
+                        @Codigo_postal=%s,
+                        @Direccion_Destino=%s,
+                        @Referencias_Destino=%s,
+                        @Medida_Ancho=%s,
+                        @Medida_Alto=%s,
+                        @Medida_Largo=%s,
+                        @Peso=%s,
+                        @Paqueteria=%s,
+                        @Total=%s,
+                        @idSucursal=%s
+                ''', [
+                    datetime.now().date(), remitente, telefono, contenido,
+                    destinatario, cp, direccion, referencias,
+                    ancho, alto, largo, peso, paqueteria, total, id_sucursal
+                ])
+
+        return render(request, 'paqueteria/ticket_envio.html', {
+            'datos_sucursal': datos_sucursal,
+            'datos_envio': request.POST
+        })
+
+    return render(request, 'paqueteria/envio.html', {
+        'datos_sucursal': datos_sucursal
+    })

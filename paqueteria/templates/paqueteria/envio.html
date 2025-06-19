@@ -2,10 +2,105 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Envio</title>
+    <title>Registrar Envío</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 8cm;
+            padding: 10px;
+            border: 1px solid #000;
+            margin: 0 auto;
+        }
+        h2, h3 {
+            text-align: center;
+        }
+        .line {
+            border-top: 1px dashed #000;
+            margin: 10px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenido al Sistema de Paquetería</h1>
-    <p>Este es el apartado para el registro de envios.</p>
+
+    {% comment %} <h2>📦 COMPROBANTE DE ENVÍO 📦</h2>
+    <div class="line"></div> {% endcomment %}
+
+    {% if datos_sucursal %}
+    <h3>{{ datos_sucursal.nombre }}</h3>
+    <p>
+        Dirección: {{ datos_sucursal.direccion }}<br>
+        C.P.: {{ datos_sucursal.codigo_postal }}<br>
+        Estado: {{ datos_sucursal.estado }}<br>
+        Tel.: {{ datos_sucursal.telefono }}<br>
+        Atendió: {{ datos_sucursal.atendio }}
+        RFC: {{datos_sucursal.rfc}}
+    </p>
+    {% else %}
+    <p style="color: red;">No se encontraron datos de la sucursal</p>
+    {% endif %}
+
+    <div class="line"></div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Remitente:</label>
+        <input type="text" name="remitente" required>
+
+        <label>Teléfono:</label>
+        <input type="text" name="telefono" required>
+
+        <label>Contenido del paquete:</label>
+        <textarea name="contenido" rows="3" required></textarea>
+
+        <label>Destinatario:</label>
+        <input type="text" name="destinatario" required>
+
+        <label>Código Postal:</label>
+        <input type="text" name="codigo_postal" required>
+
+        <label>Dirección de entrega:</label>
+        <textarea name="direccion" rows="2" required></textarea>
+
+        <label>Referencias:</label>
+        <textarea name="referencias" rows="2" required></textarea>
+
+        <label>Medidas (cm):</label>
+        <input type="number" step="0.01" name="ancho" placeholder="Ancho" required>
+        <input type="number" step="0.01" name="alto" placeholder="Alto" required>
+        <input type="number" step="0.01" name="largo" placeholder="Largo" required>
+
+        <label>Peso (kg):</label>
+        <input type="number" step="0.01" name="peso" required>
+
+         <label>Paqueteria:</label>
+        <textarea name="paqueteria" rows="2" required></textarea>
+
+        <label>Total (MXN):</label>
+        <input type="number" step="0.01" name="total" required>
+
+        <div class="btn-group">
+            <button type="submit" name="accion" value="guardar_imprimir">Guardar e Imprimir</button>
+            <button type="submit" name="accion" value="solo_ticket">Solo Generar Ticket</button>
+        </div>
+    </form>
+
+    <div class="line"></div>
+    <p style="font-size: small; text-align: center;">
+        ¡GRACIAS POR SU PREFERENCIA!.<br>
+    </p>
+
 </body>
 </html>
