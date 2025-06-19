@@ -58,12 +58,15 @@
             <p><strong>Peso (kg):</strong> {{ datos_envio.peso }}</p>
             <p><strong>Paqueteria:</strong> {{datos_envio.paqueteria}}
             <p><strong>Total (MXN):</strong> ${{ datos_envio.total }}</p>
+            <br>
+            <br>
         </div>
     {% else %}
         <p style="color:red;">No se encontraron datos del envío</p>
     {% endif %}
 
     <div class="line"></div>
+
 
     <p style="text-align: center; font-size: small;">¡Gracias por su preferencia!</p>
 </body>
