@@ -253,3 +253,7 @@ def registrar_envio(request):
     return render(request, 'paqueteria/envio.html', {
         'datos_sucursal': datos_sucursal
     })
+
+
+
+    
