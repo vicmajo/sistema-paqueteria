@@ -31,12 +31,14 @@
         
         .ticket {
             width: 8cm;
+            height: 22cm; /* Cambiado de height fijo a min-height */
             background-color: white;
-            padding: 15px;
+            padding: 10px;
             border: 1px solid #000;
             position: relative;
             overflow: hidden;
             margin-bottom: 20px;
+            word-wrap: break-word; /* Asegura que el texto largo no salga del contenedor */
         }
         
         h2, h3 {
@@ -86,7 +88,7 @@
         
         .footer {
             text-align: center;
-            font-size: 10px;
+            font-size: 11px;
             color: #000;
             margin-top: 10px;
             font-style: italic;
@@ -122,6 +124,17 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
 
+        /* Estilo para campos de texto largo */
+        .long-text {
+            white-space: pre-wrap; /* Mantiene saltos de línea pero permite ajuste */
+            margin-top: 5px;
+            padding: 3px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+            border: 1px dotted #ccc;
+            display: block; /* Asegura que ocupe su propia línea */
+        }
+
         @media print {
             body {
                 background: none;
@@ -132,6 +145,7 @@
                 border: 1px solid #000;
                 width: 8cm;
                 margin: 0 auto;
+                min-height: auto; /* Ajuste para impresión */
             }
             
             .print-btn {
@@ -145,15 +159,19 @@
         <div class="ticket">
             <h2>COMPROBANTE DE ENVÍO</h2>
             
+            
             {% if datos_sucursal %}
-                <h3>{{ datos_sucursal.nombre }}</h3>
-                <div class="section">
-                    <div class="section-title">DATOS DE LA SUCURSAL</div>
-                    <p><strong>Dirección:</strong> {{ datos_sucursal.direccion }}</p>
-                    <p><strong>C.P.:</strong> {{ datos_sucursal.codigo_postal }} | <strong>Estado:</strong> {{ datos_sucursal.estado }}</p>
-                    <p><strong>Atendió:</strong> {{ datos_sucursal.atendio }}</p>
-                    <p><strong>RFC:</strong> {{ datos_sucursal.rfc }}</p>
-                    <p><strong>Teléfono:</strong> {{ datos_sucursal.telefono }}</p>
+            <h3>{{ datos_sucursal.nombre }}</h3>
+            <div class="section">
+                <div class="section-title">DATOS DE LA SUCURSAL</div>
+                <p><strong>Dirección:</strong> {{ datos_sucursal.direccion }}</p>
+                <p><strong>C.P.:</strong> {{ datos_sucursal.codigo_postal }} | <strong>Estado:</strong> {{ datos_sucursal.estado }}</p>
+                <p><strong></strong> {{ datos_sucursal.atendio }}</p>
+                <p><strong>RFC:</strong> {{ datos_sucursal.rfc }}</p>
+                <p><strong>Teléfono:</strong> {{ datos_sucursal.telefono }}</p>
+                <br>
+                    <p><strong>No. de ticket:</strong> {{ numero_ticket }}</p>
+                    <p><strong>Atendió:</strong> {{ Leatendio }}</p>
                 </div>
             {% else %}
                 <p class="error">No se encontraron datos de la sucursal</p>
@@ -164,16 +182,17 @@
             {% if datos_envio %}
                 <div class="section">
                     <div class="section-title">INFORMACIÓN DEL ENVÍO</div>
-                    <p><strong>Remitente:</strong> {{ datos_envio.remitente }}</p>
-                    <p><strong>Teléfono:</strong> {{ datos_envio.telefono }}</p>
-                    <p><strong>Contenido:</strong> {{ datos_envio.contenido }}</p>
                     <p><strong>Destinatario:</strong> {{ datos_envio.destinatario }}</p>
+                    <p><strong>Teléfono Destinatario:</strong> {{ datos_envio.telefonoD }}</p>
+                    <p><strong>Dirección:</strong> <span class="long-text">{{ datos_envio.direccion }}</span></p>
                     <p><strong>C.P.:</strong> {{ datos_envio.codigo_postal }}</p>
-                    <p><strong>Dirección:</strong> {{ datos_envio.direccion }}</p>
-                    <p><strong>Referencias:</strong> {{ datos_envio.referencias }}</p>
+                    <p><strong>Referencias:</strong> <span class="long-text">{{ datos_envio.referencias }}</span></p>
                     
+                    <p><strong>Remitente:</strong> {{ datos_envio.remitente }}</p>
+                    <p><strong>Teléfono Remitente:</strong> {{ datos_envio.tel }}</p>
                     <div class="divider" style="margin: 8px 0;"></div>
                     
+                    <p><strong>Contenido:</strong> <span class="long-text">{{ datos_envio.contenido }}</span></p>
                     <p><strong>Medidas:</strong> {{ datos_envio.ancho }} × {{ datos_envio.alto }} × {{ datos_envio.largo }} cm</p>
                     <p><strong>Peso:</strong> {{ datos_envio.peso }} kg</p>
                     <p><strong>Paquetería:</strong> {{ datos_envio.paqueteria }}</p>
@@ -186,12 +205,21 @@
             <div class="divider"></div>
 
             <div class="footer">
-                GRACIAS POR SU PREFERENCIA<br>
-                Conserve este comprobante
+                !! GRACIAS POR SU PREFERENCIA !!<br> 
+                <br>
+                Conserve este comprobante. <br>
+                <br>
+                ⚠ Avisos importantes 
+                <br>
+                • Este comprobante no sustituye la guía oficial de la paquetería. <br>
+                • Los tiempos de entrega pueden variar por causas ajenas al negocio.<br>
+                • Envíos sujetos a revisión y validación por parte de la empresa transportista.<br>
+                • Paquetes con contenido restringido pueden ser retenidos por aduanas o autoridades.
             </div>
         </div>
 
         <button class="print-btn" onclick="window.print()">🖨️ Imprimir Ticket</button>
+        <button class="print-btn" onclick="window.location.href='{% url 'registrar_envio' %}'">Cancelar o Regresar</button>
     </div>
 </body>
 </html>

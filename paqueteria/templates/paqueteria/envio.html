@@ -208,6 +208,10 @@
             <p><strong>C.P.:</strong> {{ datos_sucursal.codigo_postal }} | <strong>Estado:</strong> {{ datos_sucursal.estado }}</p>
             <p><strong></strong> {{ datos_sucursal.atendio }}</p>
             <p><strong>RFC:</strong> {{ datos_sucursal.rfc }} | <strong>Tel:</strong> {{ datos_sucursal.telefono }}</p>
+            <br> 
+            <p><strong>Atendió:</strong> Se muestra en la vista previa</p>
+            
+
         </div>
         {% else %}
         <p class="error-message">⚠️ No se encontraron datos de la sucursal</p>
@@ -219,24 +223,16 @@
             {% csrf_token %}
             
             <div class="form-group">
-                <label>Remitente:</label>
-                <input type="text" name="remitente" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Teléfono:</label>
-                <input type="text" name="telefono" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Contenido del paquete:</label>
-                <textarea name="contenido" rows="2" required></textarea>
-            </div>
-            
-            <div class="form-group">
                 <label>Destinatario:</label>
                 <input type="text" name="destinatario" required>
             </div>
+
+            <div class="form-group">
+                <label>Teléfono Destinatario:</label>
+                <input type="text" name="telefono" required>
+            </div>
+
+            
             
             <div class="form-group">
                 <label>Código Postal:</label>
@@ -251,6 +247,20 @@
             <div class="form-group">
                 <label>Referencias:</label>
                 <textarea name="referencias" rows="2" required></textarea>
+            </div>
+             <div class="form-group">
+                <label>Remitente:</label>
+                <input type="text" name="remitente" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Teléfono Remitente:</label>
+                <input type="text" name="tel" required>
+            </div>
+
+            <div class="form-group">
+                <label>Contenido del paquete:</label>
+                <textarea name="contenido" rows="2" required></textarea>
             </div>
             
             <label>Medidas (cm):</label>
@@ -276,6 +286,7 @@
             </div>
             
             <div class="button-group">
+                <button type="submit" name="accion" value="regresar" formnovalidate>Cancelar o Regresar</button>
                 <button type="submit" name="accion" value="guardar_imprimir">💾 Guardar e Imprimir</button>
                 <button type="submit" name="accion" value="solo_ticket">🖨️ Solo Ticket</button>
             </div>

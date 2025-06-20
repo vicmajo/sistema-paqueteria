@@ -137,12 +137,28 @@
                 <button type="submit">Ticket de Devolución</button>
             </form>
         </div>
+
         
         <div class="logo-footer">
             <img src="{% static 'img/dhl.png' %}" alt="DHL">
             <img src="{% static 'img/fedex.png' %}" alt="FedEx">
             <img src="{% static 'img/estafeta.png' %}" alt="Estafeta">
             <img src="{% static 'img/mercadolibre.png' %}" alt="Mercado Libre">
+        </div> <br>
+        
+        <h2>¿Desea buscar algun ticket?</h2>
+        <div class="buttons-container">
+            <form action="{% url 'buscar_ticket' %}" method="get">
+                <button type="submit">Buscar Ticket Envío</button>
+                <input type="hidden" name="tipo" value="envio">
+                <input type="number" name="id_ticket" placeholder="No. ticket de envío" required>
+            </form>
+
+            <form action="{% url 'buscar_ticket' %}" method="get">
+                <button type="submit">Buscar Ticket Devolución</button>
+                <input type="hidden" name="tipo" value="devolucion">
+                <input type="number" name="id_ticket" placeholder="No ticket de devolución" required>
+            </form>
         </div>
     </div>
 </body>

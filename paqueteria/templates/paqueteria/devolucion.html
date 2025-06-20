@@ -139,28 +139,32 @@
 </head>
 <body>
     <div class="form-container">
-        <h2>📦 Registrar Devolución</h2>
+        <h2>Registrar Devolución</h2>
         
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label>📦 Nombre del cliente:</label>
-                <input type="text" name="nombre_cliente" required placeholder="Ingrese el nombre completo">
+                <input type="text" name="nombre_cliente" required placeholder="Ingrese el nombre completo"
+                value="{{ datos_devolucion.NombreCliente|default:'' }}">
             </div>
             
             <div class="form-group">
                 <label>📅 Fecha de entrega:</label>
-                <input type="date" name="fecha_entrega" required>
-            </div>
+                <input type="date" name="fecha_entrega" required 
+                value="{{ datos_devolucion.FechaEntrega|date:'Y-m-d' }}">
             
             <div class="form-group">
                 <label>⏰ Hora de entrega:</label>
-                <input type="time" name="hora_entrega" required>
+                <input type="time" name="hora_entrega" required
+                value="{{ datos_devolucion.HoraEntrega|default:'' }}">
             </div>
             
             <div class="button-group">
-                <button type="submit" name="accion" value="guardar_imprimir">💾 Guardar y generar ticket</button>
-                <button type="submit" name="accion" value="solo_ticket">🖨️ Solo generar ticket</button>
+                <button type="submit" name="accion" value="guardar_imprimir">Guardar y generar ticket</button>
+                <button type="submit" name="accion" value="solo_ticket">Solo generar ticket</button>
+                <button type="submit" name="accion" value="regresar" formnovalidate>Cancelar o Regresar</button>
+
             </div>
         </form>
         
