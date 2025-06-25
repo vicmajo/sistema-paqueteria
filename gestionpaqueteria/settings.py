@@ -96,6 +96,22 @@ WSGI_APPLICATION = 'gestionpaqueteria.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db22256',
+        'USER': 'db22256',
+        'PASSWORD': '3Ne@x#T64Aa%',
+        'HOST': 'db22256.public.databaseasp.net',
+        'PORT': '3306',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+            'trusted_connection': 'yes',
+        },
+    }
+}
+
+
+DATABASES = {
+    'default': {
         'ENGINE': 'mssql',
         'NAME': 'db21838',
         'USER': 'db21838',
