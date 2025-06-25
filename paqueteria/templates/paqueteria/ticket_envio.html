@@ -30,7 +30,7 @@
         
         .ticket {
             width: 80mm;
-            min-height: auto; /* Cambiado de height fijo a min-height */
+            min-height: initial; /* Cambiado de height fijo a min-height */
             background-color: white;
             padding: 10px;
             border: 1px solid #000;
@@ -143,11 +143,10 @@
             
             .ticket {
                 width: 80mm;
-                box-shadow: 200mm;
                 overflow: hidden;
                 page-break-inside: avoid;
                 border: none;
-                padding: 0px;
+                padding: 0;
             }
 
             .ticket-container {
@@ -177,8 +176,6 @@
     <div class="ticket-container">
         <div class="ticket">
             <h2>COMPROBANTE DE ENVÍO</h2>
-            
-            
             {% if datos_sucursal %}
             <h3>{{ datos_sucursal.nombre }}</h3>
             <div class="section">
