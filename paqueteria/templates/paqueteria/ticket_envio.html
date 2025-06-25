@@ -136,9 +136,18 @@
 
         @media print {
             body {
-                background: white;
                 margin: 0;
                 padding: 0;
+                background: none;
+            }
+            
+            .ticket {
+                width: 80mm;
+                box-shadow: 200mm;
+                overflow: hidden;
+                page-break-inside: avoid;
+                border: none;
+                padding: 0px;
             }
 
             .ticket-container {
@@ -146,12 +155,6 @@
                 padding: 0;
             }
             
-            .ticket {
-                width: 80mm;
-                box-shadow: none;
-                border: none;
-                padding: 5px;
-            }
             
             .print-btn, .cancel-btn {
                 display: none;
@@ -161,6 +164,11 @@
                 content: "";
                 display: block;
                 page-break-after: always;
+            }
+
+            @page {
+                size: 80mm auto;
+                margin: 0;
             }
         }
     </style>
