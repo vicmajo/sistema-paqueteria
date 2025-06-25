@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -99,31 +100,27 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'db22256',
         'USER': 'db22256',
-        'PASSWORD': '3Ne@x#T64Aa%',
+        'PASSWORD': 'pT#98+eY_H6f',
         'HOST': 'db22256.public.databaseasp.net',
         'PORT': '3306',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-            'trusted_connection': 'yes',
-        },
     }
 }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',
-        'NAME': 'db21838',
-        'USER': 'db21838',
-        'PASSWORD': '3Ne@x#T64Aa%',
-        'HOST': 'db21838.public.databaseasp.net',
-        'PORT': '1433',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-            'trusted_connection': 'yes',
-        },
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',
+#         'NAME': 'db21838',
+#         'USER': 'db21838',
+#         'PASSWORD': '3Ne@x#T64Aa%',
+#         'HOST': 'db21838.public.databaseasp.net',
+#         'PORT': '1433',
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',
+#             'trusted_connection': 'yes',
+#         },
+#     }
+# }
 
 
 
