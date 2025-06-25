@@ -18,7 +18,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
             padding: 20px;
         }
         
@@ -30,8 +29,8 @@
         }
         
         .ticket {
-            width: 8cm;
-            height: 22cm; /* Cambiado de height fijo a min-height */
+            width: 80mm;
+            min-height: auto; /* Cambiado de height fijo a min-height */
             background-color: white;
             padding: 10px;
             border: 1px solid #000;
@@ -137,19 +136,31 @@
 
         @media print {
             body {
-                background: none;
+                background: white;
+                margin: 0;
+                padding: 0;
+            }
+
+            .ticket-container {
+                margin: 0;
                 padding: 0;
             }
             
             .ticket {
-                border: 1px solid #000;
-                width: 8cm;
-                margin: 0 auto;
-                min-height: auto; /* Ajuste para impresión */
+                width: 80mm;
+                box-shadow: none;
+                border: none;
+                padding: 5px;
             }
             
-            .print-btn {
+            .print-btn, .cancel-btn {
                 display: none;
+            }
+
+            body::after {
+                content: "";
+                display: block;
+                page-break-after: always;
             }
         }
     </style>
