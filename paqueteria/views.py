@@ -176,7 +176,7 @@ def registrar_envio(request):
     if request.method == 'POST':
         accion = request.POST.get('accion')
         remitente = request.POST.get('remitente')
-        telefono = request.POST.get('telefono')
+        telefonoD = request.POST.get('telefonoD')
         contenido = request.POST.get('contenido')
         destinatario = request.POST.get('destinatario')
         cp = request.POST.get('codigo_postal')
@@ -189,8 +189,6 @@ def registrar_envio(request):
         paqueteria = request.POST.get('paqueteria')
         total = request.POST.get('total')
 
-        
-        
         id_sucursal = datos_sucursal['id'] if datos_sucursal else None
         if accion == 'regresar':
             return redirect('menu')
@@ -216,7 +214,7 @@ def registrar_envio(request):
                         @Total=%s,
                         @idSucursal=%s
                 ''', [
-                    datetime.now().date(), remitente, telefono, contenido,
+                    datetime.now().date(), remitente, telefonoD, contenido,
                     destinatario, cp, direccion, referencias,
                     ancho, alto, largo, peso, paqueteria, total, id_sucursal
                 ])
