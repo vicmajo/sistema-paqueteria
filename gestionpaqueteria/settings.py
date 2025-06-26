@@ -28,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-em8=&gg99_!=6bfn%-t(v$lblk62ux)mewfu8m#gt(m3$ubo#x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['paqueteria.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['paqueteria.herokuapp.com', '127.0.0.1', 'localhost', 'paqueteria-22aa5505cdf5.herokuapp.com']
 
 
 # Application definition
