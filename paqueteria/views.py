@@ -2,7 +2,6 @@ from django.db import connection
 from django.shortcuts import render, redirect
 from datetime import datetime
 from .models import Sucursal, InicioLogin
-import pyodbc  # type: ignore
 
 
 def obtener_nombres_sucursales():
