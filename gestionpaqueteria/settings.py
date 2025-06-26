@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-em8=&gg99_!=6bfn%-t(v$lblk62ux)mewfu8m#gt(m3$ubo#x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['vickmajo.pythonanywhere.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['gestion-paqueteria-victor.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -162,6 +163,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'static'),
@@ -172,3 +175,8 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+import dj_database_url
+
+if os.environ.get('DATABASE_URL'):  # Solo en producción (Heroku)
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
