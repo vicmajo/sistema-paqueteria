@@ -134,16 +134,22 @@
             </form>
             
             <form action="{% url 'registrar_devolucion' %}" method="get">
-                <button type="submit">Ticket de Devolución</button>
+                <button type="submit">Ticket de Recolecciones</button>
             </form>
         </div>
 
         
         <div class="logo-footer">
+            {% load static %}
             <img src="{% static 'img/dhl.png' %}" alt="DHL">
             <img src="{% static 'img/fedex.png' %}" alt="FedEx">
             <img src="{% static 'img/estafeta.png' %}" alt="Estafeta">
-            <img src="{% static 'img/mercadolibre.png' %}" alt="Mercado Libre">
+            <img src="{% static 'img/mercadolibre.png' %}" alt="Mercado Libre"> 
+{% comment %}             
+            <img src="static/img/DHL.png" alt="DHL" class="logo">
+            <img src="static/img/Fedex.png" alt="FedEx" class="logo">
+            <img src="static/img/Estafeta.png" alt="Estafeta" class="logo">
+            <img src="static/img/MercadoLibre.png" alt="Mercado Libre" class="logo"> {% endcomment %}
         </div> <br>
         
         {% comment %} <h2>¿Desea buscar algun ticket?</h2>
